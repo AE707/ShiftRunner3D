@@ -6,16 +6,10 @@ public class PlayerMovement : MonoBehaviour
     public float forwardSpeed = 8f;
 
     [Header("Lane Movement")]
-    public float laneDistance = 2.5f;
+    public Transform[] lanes;
     public float laneSwitchSpeed = 10f;
 
-    private int currentLane = 1; // 0 = Left, 1 = Middle, 2 = Right
-    private Vector3 targetPosition;
-
-    void Start()
-    {
-        targetPosition = transform.position;
-    }
+    private int currentLaneIndex = 1;
 
     void Update()
     {
@@ -31,30 +25,27 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleLaneInput()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-            ChangeLane(-1);
+        if (Input.GetKeyDown(KeyCode.A))
+            currentLaneIndex--;
 
         if (Input.GetKeyDown(KeyCode.D))
-            ChangeLane(1);
-    }
+            currentLaneIndex++;
 
-    void ChangeLane(int direction)
-    {
-        currentLane = Mathf.Clamp(currentLane + direction, 0, 2);
-
-        targetPosition = new Vector3(
-            (currentLane - 1) * laneDistance,
-            transform.position.y,
-            transform.position.z
-        );
+        currentLaneIndex = Mathf.Clamp(currentLaneIndex, 0, lanes.Length - 1);
     }
 
     void MoveToLane()
     {
+        Vector3 targetPos = new Vector3(
+            lanes[currentLaneIndex].position.x,
+            transform.position.y,
+            transform.position.z
+        );
+
         transform.position = Vector3.Lerp(
             transform.position,
-            targetPosition,
-            laneSwitchSpeed * Time.deltaTime
+            targetPos,
+            Time.deltaTime * laneSwitchSpeed
         );
     }
 }
