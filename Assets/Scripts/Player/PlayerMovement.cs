@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleLaneInput()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Q))
             ChangeLane(-1);
 
         if (Input.GetKeyDown(KeyCode.D))
