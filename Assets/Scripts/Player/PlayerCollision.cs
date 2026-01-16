@@ -7,7 +7,9 @@ public class PlayerCollision : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Hit obstacle – Game Over");
+            GameManager.Instance.GameOver();
             Time.timeScale = 0f;
         }
     }
+
 }
