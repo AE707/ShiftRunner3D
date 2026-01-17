@@ -1,30 +1,47 @@
 using UnityEngine;
+using ShiftRunner3D.Utils;
 
-public class ObstacleCleanup : MonoBehaviour
+namespace ShiftRunner3D.Obstacles
 {
-    private Transform player;
-
-    void Start()
+    public class ObstacleCleanup : MonoBehaviour
     {
-        GameObject playerObj = GameObject.FindWithTag("Player");
-
-        if (playerObj != null)
+        private Transform player;
+        private ObjectPool obstaclePool;
+        
+        void Start()
         {
-            player = playerObj.transform;
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+            else
+            {
+                Debug.LogError("ObstacleCleanup: Player not found!");
+            }
+            
+            obstaclePool = FindObjectOfType<ObjectPool>();
+            if (obstaclePool == null)
+            {
+                Debug.LogWarning("ObstacleCleanup: ObjectPool not found! Will use Destroy instead.");
+            }
         }
-        else
+        
+        void Update()
         {
-            Debug.LogError("Player not found! Make sure Player has the 'Player' tag.");
-        }
-    }
-
-    void Update()
-    {
-        if (player == null) return;
-
-        if (transform.position.z < player.position.z - 5f)
-        {
-            Destroy(gameObject);
+            if (player == null) return;
+            
+            if (transform.position.z < player.position.z - 10f)
+            {
+                if (obstaclePool != null)
+                {
+                    obstaclePool.ReturnToPool(gameObject);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }
