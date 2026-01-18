@@ -76,10 +76,16 @@ namespace ShiftRunner3D.Obstacles
             ObstaclePattern pattern = patterns[patternIndex];
             
             if (!pattern.IsValid()) return;
+
+            float currentZ = spawnZ;
             
             foreach (int lane in pattern.lanes)
             {
-                SpawnObstacleInLane(lane);
+                // Add random offset for variation
+                float randomOffset = Random.Range(-1f, 1f);  // Random ±1 unit
+                SpawnObstacleInLane(lane, currentZ + randomOffset);
+        
+                 currentZ += pattern.internalSpacing;
             }
             
             lastPatternIndex = patternIndex;
@@ -117,10 +123,10 @@ namespace ShiftRunner3D.Obstacles
             return 0;
         }
         
-        void SpawnObstacleInLane(int lane)
+        void SpawnObstacleInLane(int lane, float zPosition)
         {
             float xPos = (lane - 1) * laneDistance;
-            Vector3 spawnPos = new Vector3(xPos, spawnHeight, spawnZ);
+            Vector3 spawnPos = new Vector3(xPos, spawnHeight, zPosition);
             
             GameObject obstacle = obstaclePool.GetPooledObject();
             if (obstacle != null)

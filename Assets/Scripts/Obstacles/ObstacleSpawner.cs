@@ -4,8 +4,8 @@ public class ObstacleSpawner : MonoBehaviour
 {
     public GameObject obstaclePrefab;
 
-    public float spawnZ = 30f;
-    public float spawnInterval = 2f;
+    public float spawnZ = 40f;
+    public float spawnInterval = 0.5f;
     public float laneDistance = 2.5f;
 
     private float timer;
