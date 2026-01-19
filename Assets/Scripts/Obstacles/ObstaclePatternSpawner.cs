@@ -26,6 +26,7 @@ namespace ShiftRunner3D.Obstacles
         private float currentInterval;
         private float gameTime;
         private int lastPatternIndex = -1;
+        private float currentSpawnZ;
         
         void Start()
         {
@@ -44,6 +45,9 @@ namespace ShiftRunner3D.Obstacles
                 enabled = false;
                 return;
             }
+
+            currentSpawnZ = spawnZ;
+            InvokeRepeating(nameof(SpawnPattern), 2f, spawnInterval);
         }
         
         void Update()
@@ -70,6 +74,7 @@ namespace ShiftRunner3D.Obstacles
         
         void SpawnPattern()
         {
+            
             if (patterns.Length == 0) return;
             
             int patternIndex = SelectRandomPattern();
@@ -77,17 +82,19 @@ namespace ShiftRunner3D.Obstacles
             
             if (!pattern.IsValid()) return;
 
-            float currentZ = spawnZ;
+            float patternStartZ = currentSpawnZ;
             
             foreach (int lane in pattern.lanes)
             {
                 // Add random offset for variation
                 float randomOffset = Random.Range(-1f, 1f);  // Random ±1 unit
-                SpawnObstacleInLane(lane, currentZ + randomOffset);
+                SpawnObstacleInLane(lane, patternStartZ);
         
-                 currentZ += pattern.internalSpacing;
+                 patternStartZ += pattern.internalSpacing;
             }
-            
+
+            //  Move spawn point forward for next pattern
+            currentSpawnZ += pattern.internalSpacing * pattern.lanes.Length + 5f; // 5f = gap between patterns 
             lastPatternIndex = patternIndex;
         }
         
@@ -132,7 +139,7 @@ namespace ShiftRunner3D.Obstacles
             if (obstacle != null)
             {
                 obstacle.transform.position = spawnPos;
-                obstacle.transform.rotation = Quaternion.identity;
+                //obstacle.transform.rotation = Quaternion.identity;
                 obstacle.SetActive(true);
             }
         }
