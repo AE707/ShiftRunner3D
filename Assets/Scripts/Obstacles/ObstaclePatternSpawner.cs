@@ -27,6 +27,7 @@ namespace ShiftRunner3D.Obstacles
         private float gameTime;
         private int lastPatternIndex = -1;
         private float currentSpawnZ;
+        public GameObject[] obstacleVariations;
         
         void Start()
         {
@@ -135,7 +136,12 @@ namespace ShiftRunner3D.Obstacles
             float xPos = (lane - 1) * laneDistance;
             Vector3 spawnPos = new Vector3(xPos, spawnHeight, zPosition);
             
+           // GameObject randomPrefab = obstacleVariations[Random.Range(0, obstacleVariations.Length)];
+            //GameObject obstacle = Instantiate(randomPrefab, spawnPos, Quaternion.identity);
+            
             GameObject obstacle = obstaclePool.GetPooledObject();
+            //obstacle.transform.position = spawnPos;
+            
             if (obstacle != null)
             {
                 obstacle.transform.position = spawnPos;
