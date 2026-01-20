@@ -29,7 +29,7 @@ namespace ShiftRunner3D.Environment
             }
             
             playerTransform = player.transform;
-            spawnZ = startZ;
+                    spawnZ = playerTransform.position.z - tileLength; // Start one tile behind player
             
             for (int i = 0; i < visibleTiles; i++)
             {
@@ -52,7 +52,7 @@ namespace ShiftRunner3D.Environment
         {
             if (groundTilePrefab == null) return;
             
-            Vector3 spawnPosition = new Vector3(0, 0, spawnZ);
+            Vector3 spawnPosition = new Vector3(0, 0, spawnZ); // Ensure Y=0 for ground level
             GameObject tile = Instantiate(groundTilePrefab, spawnPosition, Quaternion.identity, transform);
             tile.name = $"GroundTile_{lastSpawnedIndex}";
             
