@@ -7,12 +7,14 @@ namespace ShiftRunner3D.Obstacles
     {
         [Header("References")]
         public ObjectPool obstaclePool;
+        public Transform playerTransform; // ADD THIS - assign in inspector
         
         [Header("Spawn Settings")]
-        public float spawnZ = 50f;
+        public float spawnDistance = 50f; // Distance ahead of player to spawn
         public float spawnInterval = 2.5f;
         public float laneDistance = 2.5f;
         public float spawnHeight = 0.5f;
+        public float despawnDistance = 20f; // Distance behind player to despawn
         
         [Header("Patterns")]
         public ObstaclePattern[] patterns;
@@ -26,12 +28,26 @@ namespace ShiftRunner3D.Obstacles
         private float currentInterval;
         private float gameTime;
         private int lastPatternIndex = -1;
-        private float currentSpawnZ;
-        public GameObject[] obstacleVariations;
         
         void Start()
         {
             currentInterval = spawnInterval;
+            
+            // Find player if not assigned
+            if (playerTransform == null)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    playerTransform = player.transform;
+                }
+                else
+                {
+                    Debug.LogError("ObstaclePatternSpawner: Player not found!");
+                    enabled = false;
+                    return;
+                }
+            }
             
             if (patterns == null || patterns.Length == 0)
             {
@@ -46,15 +62,15 @@ namespace ShiftRunner3D.Obstacles
                 enabled = false;
                 return;
             }
-
-            currentSpawnZ = spawnZ;
-            InvokeRepeating(nameof(SpawnPattern), 2f, spawnInterval);
         }
         
         void Update()
         {
+            if (playerTransform == null) return;
+            
             timer += Time.deltaTime;
             
+            // Difficulty progression
             if (enableDifficultyProgression)
             {
                 gameTime += Time.deltaTime;
@@ -66,6 +82,7 @@ namespace ShiftRunner3D.Obstacles
                 }
             }
             
+            // Spawn patterns at regular intervals
             if (timer >= currentInterval)
             {
                 SpawnPattern();
@@ -75,27 +92,22 @@ namespace ShiftRunner3D.Obstacles
         
         void SpawnPattern()
         {
-            
             if (patterns.Length == 0) return;
             
             int patternIndex = SelectRandomPattern();
             ObstaclePattern pattern = patterns[patternIndex];
             
             if (!pattern.IsValid()) return;
-
-            float patternStartZ = currentSpawnZ;
+            
+            // Spawn ahead of player
+            float patternStartZ = playerTransform.position.z + spawnDistance;
             
             foreach (int lane in pattern.lanes)
             {
-                // Add random offset for variation
-                float randomOffset = Random.Range(-1f, 1f);  // Random ±1 unit
                 SpawnObstacleInLane(lane, patternStartZ);
-        
-                 patternStartZ += pattern.internalSpacing;
+                patternStartZ += pattern.internalSpacing;
             }
-
-            //  Move spawn point forward for next pattern
-            currentSpawnZ += pattern.internalSpacing * pattern.lanes.Length + 5f; // 5f = gap between patterns 
+            
             lastPatternIndex = patternIndex;
         }
         
@@ -120,6 +132,7 @@ namespace ShiftRunner3D.Obstacles
                 currentWeight += patterns[i].spawnWeight;
                 if (randomValue <= currentWeight)
                 {
+                    // Avoid repeating same pattern
                     if (i == lastPatternIndex && patterns.Length > 1)
                     {
                         return (i + 1) % patterns.Length;
@@ -133,19 +146,16 @@ namespace ShiftRunner3D.Obstacles
         
         void SpawnObstacleInLane(int lane, float zPosition)
         {
+            // Lane mapping: 0=left, 1=center, 2=right
             float xPos = (lane - 1) * laneDistance;
             Vector3 spawnPos = new Vector3(xPos, spawnHeight, zPosition);
             
-           // GameObject randomPrefab = obstacleVariations[Random.Range(0, obstacleVariations.Length)];
-            //GameObject obstacle = Instantiate(randomPrefab, spawnPos, Quaternion.identity);
-            
             GameObject obstacle = obstaclePool.GetPooledObject();
-            //obstacle.transform.position = spawnPos;
             
             if (obstacle != null)
             {
                 obstacle.transform.position = spawnPos;
-                //obstacle.transform.rotation = Quaternion.identity;
+                obstacle.transform.rotation = Quaternion.identity;
                 obstacle.SetActive(true);
             }
         }
