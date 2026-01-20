@@ -13,6 +13,7 @@ namespace ShiftRunner3D.Utils
         
         private List<GameObject> pool = new List<GameObject>();
         private Transform poolParent;
+        public GameObject[] prefabVariations;
         
         void Awake()
         {
@@ -21,18 +22,27 @@ namespace ShiftRunner3D.Utils
         
         void InitializePool()
         {
-            if (prefab == null)
+
+            if (prefabVariations == null || prefabVariations.Length == 0)
             {
+                // Fallback to single prefab
+                if (prefab == null) {
                 Debug.LogError($"ObjectPool: Prefab not assigned!");
                 return;
             }
-            
-            poolParent = new GameObject($"{prefab.name}_Pool").transform;
-            poolParent.SetParent(transform);
+                 prefabVariations = new GameObject[] { prefab };
+            }
+
+            //poolParent = new GameObject($"{prefab.name}_Pool").transform;
+            //poolParent.SetParent(transform);
             
             for (int i = 0; i < initialPoolSize; i++)
             {
-                CreatePooledObject();
+                GameObject randomPrefab = prefabVariations[Random.Range(0, prefabVariations.Length)];
+                GameObject obj = Instantiate(randomPrefab);
+                obj.SetActive(false);
+                obj.transform.parent = poolParent;
+                pool.Add(obj);
             }
         }
         
