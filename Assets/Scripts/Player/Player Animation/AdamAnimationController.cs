@@ -18,11 +18,11 @@ public class AdamAnimationController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey("space"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             animator.SetBool("Jumpi", true);
         }
-        if (!Input.GetKey("space"))
+        if (!Input.GetKeyDown(KeyCode.Space))
         {
             animator.SetBool("Jumpi", false);
         }

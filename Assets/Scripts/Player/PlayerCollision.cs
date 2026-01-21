@@ -2,7 +2,29 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    private void OnCollisionEnter(Collision collision)
+
+    void OnTriggerEnter(Collider other)
+{
+    Debug.Log("TRIGGER ENTERED! Hit: " + other.gameObject.name);
+    
+    if (other.CompareTag("Obstacle"))
+    {
+        Debug.Log("Game Over!");
+                    GameManager.Instance.GameOver();
+            Time.timeScale = 0f;
+    }
+    else
+    {
+        Debug.Log("Hit something but tag is: " + other.tag);
+    }
+}
+
+void OnCollisionEnter(Collision collision)
+{
+    Debug.Log("COLLISION ENTERED! Hit: " + collision.gameObject.name);
+}
+
+   /* private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
@@ -10,6 +32,6 @@ public class PlayerCollision : MonoBehaviour
             GameManager.Instance.GameOver();
             Time.timeScale = 0f;
         }
-    }
+    }*/
 
 }
