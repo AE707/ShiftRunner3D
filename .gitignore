@@ -122,3 +122,16 @@ Assets/TextMesh Pro/Examples & Extras/
 # ============================================
 # NOTE: All custom scripts and prefabs will still be tracked
 # Only third-party asset store content is ignored
+
+# Ignore all prefabs by default
+Assets/Prefabs/*
+
+# But KEEP your custom prefabs (negation)
+!Assets/Prefabs/Adam.prefab
+!Assets/Prefabs/Adam.prefab.meta
+!Assets/Prefabs/LongRoadSegment.prefab
+!Assets/Prefabs/LongRoadSegment.prefab.meta
+
+# Ignore obstacles folder (downloaded assets)
+Assets/Prefabs/Obstacles/
+Assets/Prefabs/Obstacles.meta
