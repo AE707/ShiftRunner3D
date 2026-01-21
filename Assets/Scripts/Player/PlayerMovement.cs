@@ -133,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void MovePlayer()
+        void MovePlayer()
     {
         // Forward movement (Z-axis)
         Vector3 forwardMove = transform.forward * currentSpeed;
@@ -142,16 +142,16 @@ public class PlayerMovement : MonoBehaviour
         float targetX = lanes[currentLaneIndex].position.x;
         float currentX = transform.position.x;
         float newX = Mathf.Lerp(currentX, targetX, laneSwitchSpeed * Time.deltaTime);
-        Vector3 lateralMove = new Vector3(newX - currentX, 0, 0);
         
         // Vertical movement (Y-axis) - physics jump
         Vector3 verticalMove = new Vector3(0, velocityY, 0);
         
-        // Combine all movement
-        Vector3 totalMove = (forwardMove + lateralMove + verticalMove) * Time.deltaTime;
+        // Combine movement: forward + vertical scaled by deltaTime, lateral is already interpolated
+        Vector3 move = (forwardMove + verticalMove) * Time.deltaTime;
+        move.x = newX - currentX;  // Override X with interpolated lane position
         
         // Move using CharacterController
-        controller.Move(totalMove);
+        controller.Move(move);
     }
 
     void IncreaseSpeed()
