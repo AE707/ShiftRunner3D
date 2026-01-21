@@ -20,7 +20,7 @@ namespace ShiftRunner3D.Obstacles
                 Debug.LogError("ObstacleCleanup: Player not found!");
             }
             
-            obstaclePool = FindObjectOfType<ObjectPool>();
+            obstaclePool = Object.FindFirstObjectByType<ObjectPool>();
             if (obstaclePool == null)
             {
                 Debug.LogWarning("ObstacleCleanup: ObjectPool not found! Will use Destroy instead.");
