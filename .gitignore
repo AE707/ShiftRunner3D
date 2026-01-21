@@ -81,3 +81,44 @@ Thumbs.db
 .vscode/
 .idea/
 *.code-workspace
+
+# ============================================
+# Downloaded Asset Store Assets (Third-party)
+# ============================================
+
+# ATM Assets
+Assets/CGY_ATM/
+Assets/CGY_ATM.meta
+
+# Vehicle Assets
+Assets/Cyberpunk Car/
+Assets/Cyberpunk Car.meta
+
+# Character Animation Assets
+Assets/Kevin Iglesias/
+Assets/Kevin Iglesias.meta
+
+# Building Assets
+Assets/Sci-Fi Buildings/
+Assets/Sci-Fi Buildings.meta
+
+# Props and Environment Assets
+Assets/SciFiProps/
+Assets/SciFiProps.meta
+
+# Turret Assets
+Assets/TD_Sci-Fi_Turret1_Example/
+Assets/TD_Sci-Fi_Turret1_Example.meta
+
+# Unity Technologies Sample Assets
+Assets/UnityTechnologies/
+Assets/UnityTechnologies.meta
+
+# TextMesh Pro Examples (keep the core, ignore examples)
+Assets/TextMesh Pro/Examples & Extras/
+
+# ============================================
+# Keep only custom prefabs and scripts
+# ============================================
+# NOTE: All custom scripts and prefabs will still be tracked
+# Only third-party asset store content is ignored
