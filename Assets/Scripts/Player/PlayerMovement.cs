@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Lane Movement")]
     public Transform[] lanes;            // Array of lane transforms (Left, Center, Right)
     public float laneSwitchSpeed = 10f;  // Speed of lane switching
-    private int currentLaneIndex = 1;    // Start at center lane
+    private int currentLaneIndex = 0;    // Start at center lane
 
     [Header("Jump & Physics")]
     public float jumpForce = 8f;         // Initial upward velocity when jumping
@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
+            Debug.Log($"[UPDATE] Frame={Time.frameCount}, isGrounded={isGrounded}, velocityY={velocityY}, position={transform.position}");
         // Check if grounded
         CheckGround();
         
@@ -89,33 +91,55 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void HandleLaneInput()
+{
+    Debug.Log($"[LANE INPUT] currentLaneIndex={currentLaneIndex}, lanes.Length={lanes.Length}");
+    
+    if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
     {
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        Debug.Log("★★★ A KEY DETECTED! ★★★");
+        // Move to left lane
+        if (currentLaneIndex > 0)
         {
-            // Move to left lane
-            if (currentLaneIndex > 0)
-            {
-                currentLaneIndex--;
-            }
+            currentLaneIndex--;
+            Debug.Log($"→ Switched to lane {currentLaneIndex}");
         }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        else
         {
-            // Move to right lane
-            if (currentLaneIndex < lanes.Length - 1)
-            {
-                currentLaneIndex++;
-            }
+            Debug.Log("→ Already at leftmost lane!");
         }
     }
+    else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+    {
+        Debug.Log("★★★ D KEY DETECTED! ★★★");
+        // Move to right lane
+        if (currentLaneIndex < lanes.Length - 1)
+        {
+            currentLaneIndex++;
+            Debug.Log($"→ Switched to lane {currentLaneIndex}");
+        }
+        else
+        {
+            Debug.Log("→ Already at rightmost lane!");
+        }
+    }
+}
 
-    void HandleJump()
+
+void HandleJump()
+{
+    if (Input.GetKeyDown(KeyCode.Space))
     {
-        // Jump on Space press (single press, no holding)
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            velocityY = jumpForce;
-        }
+        Debug.Log($"★★★ SPACE KEY DETECTED! isGrounded={isGrounded} ★★★");
     }
+    
+    // Jump on Space press (single press, no holding)
+    if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+    {
+        velocityY = jumpForce;
+        Debug.Log($"→ JUMP TRIGGERED! velocityY set to {jumpForce}");
+    }
+}
+
 
     void ApplyGravity()
     {
@@ -133,26 +157,31 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-        void MovePlayer()
-    {
-        // Forward movement (Z-axis)
-        Vector3 forwardMove = transform.forward * currentSpeed;
-        
-        // Lateral movement (X-axis) - smooth lerp to target lane
-        float targetX = lanes[currentLaneIndex].position.x;
-        float currentX = transform.position.x;
-        float newX = Mathf.Lerp(currentX, targetX, laneSwitchSpeed * Time.deltaTime);
-        
-        // Vertical movement (Y-axis) - physics jump
-        Vector3 verticalMove = new Vector3(0, velocityY, 0);
-        
-        // Combine movement: forward + vertical scaled by deltaTime, lateral is already interpolated
-        Vector3 move = (forwardMove + verticalMove) * Time.deltaTime;
-        move.x = newX - currentX;  // Override X with interpolated lane position
-        
-        // Move using CharacterController
-        controller.Move(move);
-    }
+void MovePlayer()
+{
+    // Forward movement (Z-axis)
+    Vector3 forwardMove = transform.forward * currentSpeed;
+    
+    // Lateral movement (X-axis) - smooth lerp to target lane
+    float targetX = lanes[currentLaneIndex].position.x;
+    float currentX = transform.position.x;
+    float newX = Mathf.Lerp(currentX, targetX, laneSwitchSpeed * Time.deltaTime);
+    
+    // Vertical movement (Y-axis) - physics jump
+    Vector3 verticalMove = new Vector3(0, velocityY, 0);
+    
+    // Combine movement: forward + vertical scaled by deltaTime, lateral is already interpolated
+    Vector3 move = (forwardMove + verticalMove) * Time.deltaTime;
+    move.x = newX - currentX;  // Override X with interpolated lane position
+    
+    Debug.Log($"[MOVE PLAYER] targetX={targetX:F2}, currentX={currentX:F2}, newX={newX:F2}, move={move}");
+    
+    // Move using CharacterController
+    controller.Move(move);
+    
+    Debug.Log($"[AFTER MOVE] New position={transform.position}");
+}
+
 
     void IncreaseSpeed()
     {
