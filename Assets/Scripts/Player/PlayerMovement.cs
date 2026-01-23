@@ -31,18 +31,39 @@ public class PlayerMovement : MonoBehaviour
     [Header("Speed Info (Read-Only)")]
     public float displaySpeed; // Shows current speed in Inspector
 
-    void Start()
+void Start()
+{
+    // Initialize speed
+    currentSpeed = startSpeed;
+    
+    // Get CharacterController
+    controller = GetComponent<CharacterController>();
+    if (controller == null)
     {
-        // Initialize speed
-        currentSpeed = startSpeed;
-        
-        // Get CharacterController
-        controller = GetComponent<CharacterController>();
-        if (controller == null)
-        {
-            Debug.LogError("CharacterController component missing on " + gameObject.name);
-        }
+        Debug.LogError("CharacterController component missing on " + gameObject.name);
     }
+    
+    // NEW: Auto-detect starting lane based on Adam's X position
+    if (lanes != null && lanes.Length > 0)
+    {
+        float currentX = transform.position.x;
+        float minDistance = float.MaxValue;
+        
+        // Find which lane Adam is closest to
+        for (int i = 0; i < lanes.Length; i++)
+        {
+            float distance = Mathf.Abs(lanes[i].position.x - currentX);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                currentLaneIndex = i;
+            }
+        }
+        
+        Debug.Log($"Starting in lane {currentLaneIndex} at position X={currentX}");
+    }
+}
+
 
     void Update()
     {
