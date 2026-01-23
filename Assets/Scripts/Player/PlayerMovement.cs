@@ -107,7 +107,7 @@ void Start()
         // Reset vertical velocity when grounded
         if (isGrounded && velocityY < 0)
         {
-            velocityY = -2f; // Small negative value to keep grounded
+            velocityY = -0.5f; // Small negative value to keep grounded
         }
     }
 
