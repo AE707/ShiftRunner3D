@@ -7,6 +7,7 @@ namespace ShiftRunner3D.Environment
     {
         [Header("Ground Tile Settings")]
         public GameObject[] tilePrefabs; // Multiple tile variants (empty, with obstacles, etc.)        pu
+                [HideInInspector] public GameObject groundTilePrefab; // Legacy field for backward compatibility
                 public int visibleTiles = 8;
         public float tileLength = 20f;
         
