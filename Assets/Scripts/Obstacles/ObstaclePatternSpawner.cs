@@ -11,6 +11,7 @@ namespace ShiftRunner3D.Obstacles
         
         [Header("Spawn Settings")]
         public float spawnDistance = 120f; // Distance ahead of player to spawn (increased to hide spawning)        public float spawnInterval = 2.5f;
+                public float spawnInterval = 3.0f; // Time between pattern spawns
         public float laneDistance = 2.5f;
         public float spawnHeight = 0.5f;
         public float despawnDistance = 20f; // Distance behind player to despawn
