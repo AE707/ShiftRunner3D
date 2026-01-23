@@ -6,8 +6,7 @@ namespace ShiftRunner3D.Environment
     public class GroundTileSpawner : MonoBehaviour
     {
         [Header("Ground Tile Settings")]
-        public GameObject groundTilePrefab;
-        public int visibleTiles = 8;
+        public GameObject[] tilePrefabs; // Multiple tile variants (empty, with obstacles, etc.)        public int visibleTiles = 8;
         public float tileLength = 20f;
         
         [Header("Spawn Settings")]
@@ -50,11 +49,12 @@ namespace ShiftRunner3D.Environment
         
         void SpawnTile()
         {
-            if (groundTilePrefab == null) return;
-            
+        if (tilePrefabs == null || tilePrefabs.Length == 0) return;            
+                
+        // Randomly select a tile variant
+        GameObject selectedPrefab = tilePrefabs[Random.Range(0, tilePrefabs.Length)];
             Vector3 spawnPosition = new Vector3(0, 0, spawnZ); // Ensure Y=0 for ground level
-            GameObject tile = Instantiate(groundTilePrefab, spawnPosition, Quaternion.identity, transform);
-            tile.name = $"GroundTile_{lastSpawnedIndex}";
+        GameObject tile = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity, transform);            tile.name = $"GroundTile_{lastSpawnedIndex}";
             
             activeTiles.Add(tile);
             spawnZ += tileLength;
