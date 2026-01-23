@@ -10,6 +10,7 @@ namespace ShiftRunner3D.Environment
                 [HideInInspector] public GameObject groundTilePrefab; // Legacy field for backward compatibility
                 public int visibleTiles = 8;
         public float tileLength = 20f;
+                public float tileOverlap = 0.1f; // Small overlap to prevent gaps between tiles
         
         [Header("Spawn Settings")]
         public float startZ = -20f;
@@ -59,8 +60,8 @@ namespace ShiftRunner3D.Environment
         GameObject tile = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity, transform);            tile.name = $"GroundTile_{lastSpawnedIndex}";
             
             activeTiles.Add(tile);
-            spawnZ += tileLength;
-            lastSpawnedIndex++;
+                    spawnZ += (tileLength - tileOverlap); // Overlap to prevent gaps    lastSpawnedIndex++;
+                            lastSpawnedIndex++;
         }
         
         void DeleteOldTile()
