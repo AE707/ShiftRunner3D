@@ -6,7 +6,8 @@ namespace ShiftRunner3D.Environment
     public class GroundTileSpawner : MonoBehaviour
     {
         [Header("Ground Tile Settings")]
-        public GameObject[] tilePrefabs; // Multiple tile variants (empty, with obstacles, etc.)        public int visibleTiles = 8;
+        public GameObject[] tilePrefabs; // Multiple tile variants (empty, with obstacles, etc.)        pu
+                public int visibleTiles = 8;
         public float tileLength = 20f;
         
         [Header("Spawn Settings")]
