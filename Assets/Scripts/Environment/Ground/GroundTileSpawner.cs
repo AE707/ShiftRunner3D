@@ -31,8 +31,7 @@ namespace ShiftRunner3D.Environment
             }
             
             playerTransform = player.transform;
-                    spawnZ = playerTransform.position.z - tileLength; // Start one tile behind player
-            
+        spawnZ = startZ; // Use configured start position            
             for (int i = 0; i < visibleTiles; i++)
             {
                 SpawnTile();
