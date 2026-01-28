@@ -14,7 +14,7 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7922109851296095364}
-    m_Position: {x: 370, y: 100, z: 0}
+    m_Position: {x: 370, y: 60, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -46,10 +46,30 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.5833334
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-476341671345696696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a66fe8a2196aa4048b858261c57b3a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  jumpHeightMultiplier: 3
+  smoothTime: 0.15
+  riseEndTime: 0.4
+  fallStartTime: 0.6
+  playerTransform: {fileID: 0}
+  startY: 0
+  targetY: 0
+  currentVelocity: 0
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -125,11 +145,31 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.8369565
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &7599533055930014408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a66fe8a2196aa4048b858261c57b3a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JumpHeightBooster
+  jumpHeightMultiplier: 3
+  smoothTime: 0.1
+  riseEndTime: 0.5
+  fallStartTime: 0.6
+  playerTransform: {fileID: 0}
+  startY: 0
+  targetY: 0
+  currentVelocity: 0
 --- !u!1102 &7922109851296095364
 AnimatorState:
   serializedVersion: 6
