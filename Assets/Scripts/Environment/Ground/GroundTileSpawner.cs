@@ -6,14 +6,13 @@ namespace ShiftRunner3D.Environment
     public class GroundTileSpawner : MonoBehaviour
     {
         [Header("Ground Tile Settings")]
-        public GameObject[] tilePrefabs; // Multiple tile variants (empty, with obstacles, etc.)        pu
-                [HideInInspector] public GameObject groundTilePrefab; // Legacy field for backward compatibility
-                public int visibleTiles = 8;
+        public GameObject[] tilePrefabs; // Multiple tile variants (empty, with obstacles, etc.)        public GameObject groundTilePrefab; // Legacy field for backward compatibility
+        public int visibleTiles = 80;
         public float tileLength = 20f;
-                public float tileOverlap = 0.1f; // Small overlap to prevent gaps between tiles
+        public float tileOverlap = 0.1f; // Small overlap to prevent gaps between tiles
         
         [Header("Spawn Settings")]
-        public float startZ = -20f;
+        public float startZ = -40f;
         
         private List<GameObject> activeTiles = new List<GameObject>();
         private Transform playerTransform;
@@ -45,7 +44,7 @@ namespace ShiftRunner3D.Environment
             if (playerTransform.position.z > spawnZ - (visibleTiles * tileLength))
             {
                 SpawnTile();
-                DeleteOldTile();
+               // DeleteOldTile();
             }
         }
         
@@ -55,15 +54,16 @@ namespace ShiftRunner3D.Environment
                 
         // Randomly select a tile variant
         GameObject selectedPrefab = tilePrefabs[Random.Range(0, tilePrefabs.Length)];
-            Vector3 spawnPosition = new Vector3(0, 0, spawnZ); // Ensure Y=0 for ground level
-        GameObject tile = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity, transform);            tile.name = $"GroundTile_{lastSpawnedIndex}";
+        Vector3 spawnPosition = new Vector3(0, 0, spawnZ); // Ensure Y=0 for ground level
+        GameObject tile = Instantiate(selectedPrefab, spawnPosition, Quaternion.identity, transform);            
+        tile.name = $"GroundTile_{lastSpawnedIndex}";
             
-            activeTiles.Add(tile);
-                    spawnZ += (tileLength - tileOverlap); // Overlap to prevent gaps    lastSpawnedIndex++;
-                            lastSpawnedIndex++;
+        activeTiles.Add(tile);
+        spawnZ += tileLength - tileOverlap; // Overlap to prevent gaps    lastSpawnedIndex++;
+        lastSpawnedIndex++;
         }
         
-        void DeleteOldTile()
+        /*void DeleteOldTile()
         {
             if (activeTiles.Count > visibleTiles && activeTiles[0] != null)
             {
@@ -71,6 +71,6 @@ namespace ShiftRunner3D.Environment
                 activeTiles.RemoveAt(0);
                 Destroy(oldTile);
             }
-        }
+        }*/
     }
 }
