@@ -14,18 +14,18 @@ public class PlayerMovement : MonoBehaviour
     private int currentLaneIndex = 0;    // Start at center lane
 
     [Header("Jump & Physics")]
-    public float jumpForce = 8f;         // Initial upward velocity when jumping
+    public float jumpForce = 10f;         // Initial upward velocity when jumping
     public float gravity = 20f;          // Gravity strength
     public float hangTimeGravity = 5f;   // Reduced gravity near peak for float feeling
     public float hangTimeThreshold = 1f; // If |velocityY| < this, use hang time gravity
     
     [Header("Ground Check")]
     public Transform groundCheck;        // Empty child at feet for ground detection
-    public float groundCheckRadius = 0.2f;
+    public float groundCheckRadius = 0.3f;
     public LayerMask groundLayer;        // Assign Ground layer
     
     private CharacterController controller;
-    private float velocityY = 0f;        // Vertical velocity
+    private float velocityY = -0.5f;        // Vertical velocity
     private bool isGrounded;
 
     [Header("Speed Info (Read-Only)")]
@@ -62,6 +62,11 @@ void Start()
         
         Debug.Log($"Starting in lane {currentLaneIndex} at position X={currentX}");
     }
+
+    if (transform.position.y < 0.5f) {
+    transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
+}
+
 }
 
 
