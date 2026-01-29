@@ -10,6 +10,14 @@ public class PlayerCollision : MonoBehaviour
     if (other.CompareTag("Obstacle"))
     {
         Debug.Log("Game Over!");
+        
+                // Trigger camera shake
+                if (CameraShake.Instance != null)
+                    CameraShake.Instance.Shake(0.2f, 0.3f);
+                
+                // Play collision sound
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayCollision();
                     GameManager.Instance.GameOver();
             Time.timeScale = 0f;
     }
