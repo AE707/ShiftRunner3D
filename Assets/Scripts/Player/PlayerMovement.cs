@@ -228,4 +228,17 @@ void MovePlayer()
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
+
+        // Public getters for GameManager
+    public float GetCurrentSpeed()
+    {
+        return currentSpeed;
+    }
+
+    public float GetNormalizedSpeed()
+    {
+        // Returns 0 at startSpeed, 1 at maxSpeed
+        if (maxSpeed <= startSpeed) return 0f;
+        return Mathf.Clamp01((currentSpeed - startSpeed) / (maxSpeed - startSpeed));
+    }
 }
