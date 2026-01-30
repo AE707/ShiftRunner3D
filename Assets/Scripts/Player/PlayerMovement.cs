@@ -131,6 +131,9 @@ void Start()
         }
         else
         {
+                    // Play lane switch sound
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayLaneSwitch();
             Debug.Log("→ Already at leftmost lane!");
         }
     }
@@ -145,6 +148,9 @@ void Start()
         }
         else
         {
+                    // Play lane switch sound
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayLaneSwitch();
             Debug.Log("→ Already at rightmost lane!");
         }
     }
@@ -162,6 +168,9 @@ void HandleJump()
     if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
     {
         velocityY = jumpForce;
+                // Play jump sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayJump();
         Debug.Log($"→ JUMP TRIGGERED! velocityY set to {jumpForce}");
     }
 }
