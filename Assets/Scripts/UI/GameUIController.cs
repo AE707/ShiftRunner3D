@@ -70,6 +70,10 @@ public class GameUIController : MonoBehaviour
     // Button callbacks
     void OnRestartClicked()
     {
+            // Play UI click sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayUIClick();
+
         if (GameManager.Instance != null)
         {
             // GameManager will handle restart via R-key
@@ -83,6 +87,10 @@ public class GameUIController : MonoBehaviour
 
     void OnQuitClicked()
     {
+            // Play UI click sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayUIClick();
+
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
