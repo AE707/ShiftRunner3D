@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private bool isGameOver = false;
     private float distanceTraveled = 0f;
     private float bestDistance = 0f;
+        private float lastMilestone = 0f;
     private const string BEST_DISTANCE_KEY = "BestDistance";
 
     void Awake()
@@ -64,6 +65,20 @@ public class GameManager : MonoBehaviour
             {
                 uiController.UpdateDistance(distanceTraveled);
                 uiController.UpdateSpeed(GetCurrentSpeed());
+
+                        // Milestone sound every 100m
+        if (Mathf.Floor(distanceTraveled / 100f) > lastMilestone)
+        {
+            lastMilestone = Mathf.Floor(distanceTraveled / 100f);
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayMilestone();
+        }
+        
+        // Update music pitch based on difficulty
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.SetMusicPitch(GetDifficulty());
+        }
             }
         }
     }
