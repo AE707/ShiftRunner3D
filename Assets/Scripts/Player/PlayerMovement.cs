@@ -127,15 +127,11 @@ void Start()
         if (currentLaneIndex > 0)
         {
             currentLaneIndex--;
+                        if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayLaneSwitch();
             Debug.Log($"→ Switched to lane {currentLaneIndex}");
         }
-        else
-        {
-                    // Play lane switch sound
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlayLaneSwitch();
-            Debug.Log("→ Already at leftmost lane!");
-        }
+
     }
     else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
     {
@@ -144,15 +140,11 @@ void Start()
         if (currentLaneIndex < lanes.Length - 1)
         {
             currentLaneIndex++;
+                        if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayLaneSwitch();
             Debug.Log($"→ Switched to lane {currentLaneIndex}");
         }
-        else
-        {
-                    // Play lane switch sound
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.PlayLaneSwitch();
-            Debug.Log("→ Already at rightmost lane!");
-        }
+
     }
 }
 
