@@ -6,6 +6,12 @@
 
 ShiftRunner3D is a 3D endless runner built with Unity, focused on modular environment tiles, pattern‑based obstacle spawning, and responsive feedback through UI, sound, and camera effects.
 
+## 🎮 Gameplay
+
+![Gameplay Demo](Assets/screenshots/ShifGamePlay.gif)
+
+*Experience the endless runner action with dynamic obstacles and lane-switching mechanics!*
+
 ## 🎮 Features
 
 - **Endless Tile-Based Track** with dynamic difficulty scaling
